@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -67,8 +67,8 @@
   <header>
     <h1>Snake <span>Drift</span></h1>
     <div class="stats">
-      <div class="stat"><small>Score</small><b id="score">0</b></div>
-      <div class="stat"><small>Best</small><b id="best">0</b></div>
+      <div class="stat"><small>Skor</small><b id="score">0</b></div>
+      <div class="stat"><small>Terbaik</small><b id="best">0</b></div>
     </div>
   </header>
 
@@ -76,12 +76,12 @@
     <canvas id="board"></canvas>
     <div class="overlay" id="overlay">
       <h2 id="ovTitle">Snake Drift</h2>
-      <p id="ovText">Eat the pink dots. The arena starts to sway and speeds up the more you eat. Arrow keys still follow the grid, not your screen.</p>
-      <button id="startBtn">Play</button>
+      <p id="ovText">Makan titik merah muda. Makin banyak kamu makan, arena makin bergoyang dan makin cepat. Tombol panah tetap mengikuti papan, bukan layarmu.</p>
+      <button id="startBtn">Main</button>
     </div>
   </div>
 
-  <footer><kbd>←↑↓→</kbd> or <kbd>WASD</kbd> to steer · swipe on touch · <kbd>Space</kbd> to pause</footer>
+  <footer><kbd>←↑↓→</kbd> atau <kbd>WASD</kbd> untuk mengarahkan · geser di layar sentuh · <kbd>Spasi</kbd> untuk jeda</footer>
 </main>
 
 <script>
@@ -185,9 +185,9 @@
       bestEl.textContent = best;
       try { localStorage.setItem('snakeDriftBest', best); } catch {}
     }
-    ovTitle.textContent = won ? 'You filled the board!' : 'Game over';
-    ovText.textContent = newBest ? `New best: ${score}!` : `Score: ${score}. Best: ${best}.`;
-    startBtn.textContent = 'Play again';
+    ovTitle.textContent = won ? 'Papan penuh, kamu menang!' : 'Permainan selesai';
+    ovText.textContent = newBest ? `Rekor baru: ${score}!` : `Skor: ${score}. Terbaik: ${best}.`;
+    startBtn.textContent = 'Main lagi';
     overlay.hidden = false;
   }
 
@@ -201,9 +201,9 @@
   function togglePause() {
     if (state === 'playing') {
       state = 'paused';
-      ovTitle.textContent = 'Paused';
-      ovText.textContent = 'Press Space or tap Resume to keep going.';
-      startBtn.textContent = 'Resume';
+      ovTitle.textContent = 'Dijeda';
+      ovText.textContent = 'Tekan Spasi atau ketuk Lanjut untuk meneruskan.';
+      startBtn.textContent = 'Lanjut';
       overlay.hidden = false;
     } else if (state === 'paused') {
       state = 'playing';
