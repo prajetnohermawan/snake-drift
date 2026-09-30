@@ -35,6 +35,12 @@
   .stats { display: flex; gap: 18px; font-variant-numeric: tabular-nums; }
   .stat small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .stat b { font-size: 20px; }
+  .hdr-right { display: flex; align-items: center; gap: 16px; }
+  #printBtn {
+    margin: 0; padding: 6px 14px; font-size: 14px;
+    background: var(--panel); color: var(--text); border: 1px solid var(--grid);
+  }
+  .print-only { display: none; }
   .stage {
     position: relative;
     width: min(92vw, 72vh, 560px); aspect-ratio: 1;
@@ -60,26 +66,44 @@
     font: inherit; font-size: 12px; padding: 1px 6px; border-radius: 5px;
     background: var(--panel); border: 1px solid var(--grid);
   }
+
+  /* Versi cetak: kartu skor di kertas putih, tanpa tombol dan latar gelap. */
+  @media print {
+    html, body { height: auto; overflow: visible; background: #fff; color: #000; }
+    main { height: auto; justify-content: flex-start; padding: 0; }
+    header, .stage { width: 12cm; }
+    h1 span { color: #0a7a55; }
+    .stat small { color: #555; }
+    #printBtn, .overlay, footer, canvas { display: none !important; }
+    .print-only { display: block; }
+    #printImg { width: 100%; height: auto; }
+    #printInfo { margin: 0; font-size: 14px; color: #333; }
+  }
 </style>
 </head>
 <body>
 <main>
   <header>
     <h1>Snake <span>Drift</span></h1>
-    <div class="stats">
-      <div class="stat"><small>Skor</small><b id="score">0</b></div>
-      <div class="stat"><small>Terbaik</small><b id="best">0</b></div>
+    <div class="hdr-right">
+      <div class="stats">
+        <div class="stat"><small>Skor</small><b id="score">0</b></div>
+        <div class="stat"><small>Terbaik</small><b id="best">0</b></div>
+      </div>
+      <button id="printBtn" title="Cetak kartu skor">Cetak</button>
     </div>
   </header>
 
   <div class="stage">
     <canvas id="board"></canvas>
+    <img id="printImg" class="print-only" alt="Papan permainan">
     <div class="overlay" id="overlay">
       <h2 id="ovTitle">Snake Drift</h2>
       <p id="ovText">Makan titik merah muda. Makin banyak kamu makan, arena makin bergoyang dan makin cepat. Tombol panah tetap mengikuti papan, bukan layarmu.</p>
       <button id="startBtn">Main</button>
     </div>
   </div>
+  <p id="printInfo" class="print-only"></p>
 
   <footer><kbd>←↑↓→</kbd> atau <kbd>WASD</kbd> untuk mengarahkan · geser di layar sentuh · <kbd>Spasi</kbd> untuk jeda</footer>
 </main>
@@ -244,6 +268,26 @@
     turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
     touchStart = { x: t.clientX, y: t.clientY };
   }, { passive: true });
+
+  // --- Cetak ---
+  // Canvas tidak selalu ikut tercetak di semua browser, jadi papan disalin dulu jadi gambar.
+  const printBtn = document.getElementById('printBtn');
+  const printImg = document.getElementById('printImg');
+  const printInfo = document.getElementById('printInfo');
+
+  function preparePrint() {
+    if (state === 'playing') togglePause();
+    printImg.src = canvas.toDataURL('image/png');
+    const tanggal = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    printInfo.textContent = `Skor: ${score} · Terbaik: ${best} · ${tanggal}`;
+  }
+  window.addEventListener('beforeprint', preparePrint);
+  printBtn.addEventListener('click', async () => {
+    printBtn.blur();   // supaya Spasi setelahnya tidak memicu cetak lagi
+    preparePrint();
+    try { await printImg.decode(); } catch {}
+    window.print();
+  });
 
   // --- Rendering ---
   function resize() {
