@@ -1,31 +1,31 @@
 # Snake Drift
 
-A browser snake game with a twist: the arena starts to sway once you've eaten, and the more you eat, the further it tilts and the faster the snake moves.
+Game ular di browser dengan satu kejutan: arena mulai bergoyang begitu kamu makan, dan makin banyak kamu makan, makin miring arenanya dan makin cepat ularnya.
 
-The controls always follow the grid, not your screen, so "up" means up on the board even when the board is tilted.
+Arah kontrol selalu mengikuti papan, bukan layar. Jadi "atas" tetap berarti atas di papan, walaupun papannya sedang miring.
 
-## Play
+## Cara main
 
-No install or build step. Open `index.html` in any modern browser:
+Tidak perlu instalasi atau build. Buka `index.html` di browser modern apa saja:
 
 ```bash
 open index.html
 ```
 
-## Controls
+## Kontrol
 
-| Action | Keyboard | Touch |
+| Aksi | Keyboard | Layar sentuh |
 | --- | --- | --- |
-| Steer | Arrow keys or `W` `A` `S` `D` | Swipe |
-| Start / play again | `Space`, `Enter`, or the Play button | Tap Play |
-| Pause / resume | `Space` (or `Enter` to resume) | Tap Resume |
+| Mengarahkan | Tombol panah atau `W` `A` `S` `D` | Geser |
+| Mulai / main lagi | `Spasi`, `Enter`, atau tombol Main | Ketuk Main |
+| Jeda / lanjut | `Spasi` (atau `Enter` untuk lanjut) | Ketuk Lanjut |
 
-## How it works
+## Aturan main
 
-- The board is a 20 × 20 grid. Eating a pink dot scores a point and grows the snake by one.
-- Each point speeds the snake up, from 140 ms per step down to 60 ms.
-- The sway grows with your score, up to about 38°.
-- Hitting a wall or yourself ends the game. Fill the whole board to win.
-- Your best score is saved in the browser (`localStorage`), so it stays after you reload the page.
+- Papannya berukuran 20 × 20 kotak. Setiap titik merah muda yang dimakan menambah satu skor dan memanjangkan ular satu kotak.
+- Setiap skor membuat ular makin cepat, dari 140 ms per langkah sampai paling cepat 60 ms.
+- Goyangan arena makin besar seiring skor, sampai sekitar 38°.
+- Menabrak dinding atau badan sendiri berarti permainan selesai. Penuhi seluruh papan untuk menang.
+- Skor terbaikmu disimpan di browser (`localStorage`), jadi tidak hilang saat halaman dimuat ulang.
 
-Everything, including HTML, CSS and JavaScript, lives in the single `index.html` file.
+Semuanya, termasuk HTML, CSS, dan JavaScript, ada di satu file `index.html`.
