@@ -226,7 +226,7 @@
       else start();
       return;
     }
-    if (e.code === 'Enter' && state !== 'playing') { start(); return; }
+    if (e.code === 'Enter' && state !== 'playing') { state === 'paused' ? togglePause() : start(); return; }
     const d = KEYS[e.code];
     if (d && state === 'playing') { e.preventDefault(); turn(d); }
   });
